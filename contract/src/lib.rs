@@ -1,68 +1,152 @@
-//!
-//! Stylus Hello World
-//!
-//! The following contract implements the Counter example from Foundry.
-//!
-//! ```
-//! contract Counter {
-//!     uint256 public number;
-//!     function setNumber(uint256 newNumber) public {
-//!         number = newNumber;
-//!     }
-//!     function increment() public {
-//!         number++;
-//!     }
-//! }
-//! ```
-//!
-//! The program is ABI-equivalent with Solidity, which means you can call it from both Solidity and Rust.
-//! To do this, run `cargo stylus export-abi`.
-//!
-//! Note: this code is a template-only and has not been audited.
-//!
-
 // Allow `cargo stylus export-abi` to generate a main function.
 #![cfg_attr(not(feature = "export-abi"), no_main)]
 extern crate alloc;
 
 /// Import items from the SDK. The prelude contains common traits and macros.
+use stylus_sdk::evm;
+use stylus_sdk::msg;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
+use alloy_primitives::Address;
+use stylus_sdk::console;
+use stylus_sdk::stylus_proc::entrypoint;
+use std::pin::Pin;
+use alloy_sol_types::sol;
+
 
 // Define some persistent storage using the Solidity ABI.
 // `Counter` will be the entrypoint.
-sol_storage! {
-    #[entrypoint]
-    pub struct Counter {
-        uint256 number;
+
+sol! {
+    event CoffeeAdded(uint256 indexed id, string name, uint256 price);
+    event CoffeePurchased(uint256 indexed id, address indexed buyer, uint256 paid);
+}
+
+pub struct Coffee {
+    #[allow(dead_code)]
+    id: u64,
+    name: String,
+    price: U256,
+}
+
+impl Erase for Coffee {
+    fn erase(&mut self) {
+        todo!()
     }
 }
 
-/// Declare that `Counter` is a contract with the following external methods.
-#[public]
-impl Counter {
-    /// Gets the number from storage.
-    pub fn number(&self) -> U256 {
-        self.number.get()
+impl<'a> From<Coffee> for &'a Coffee {
+    fn from(coffee: Coffee) -> Self {
+        // Convert Order to &'a Order
+        Box::leak(Box::new(coffee))
+    }
+}
+
+impl<'a> SimpleStorageType<'a> for Coffee {
+    fn set_by_wrapped(&mut self, value: Self::Wraps<'a>) {
+        let _ = value;
+        todo!()
+    }
+    // Implement the required methods here
+}
+
+impl StorageType for Coffee {
+    fn load<'a>(self) -> Self::Wraps<'a> {
+        // Implement the load method
+        todo!()
+    }
+    
+    type Wraps<'a> = &'a Coffee
+    where
+        Self: 'a;
+    
+    type WrapsMut<'a> = &'a mut Coffee
+    where
+        Self: 'a;
+    
+    unsafe fn new (_slot: U256, _offset: u8) -> Self {
+        todo!()
     }
 
-    /// Sets a number in storage to a user-specified value.
-    pub fn set_number(&mut self, new_number: U256) {
-        self.number.set(new_number);
+    fn load_mut<'s>(self) -> Self::WrapsMut<'s>
+        where
+            Self: 's {
+        todo!()
     }
 
-    /// Sets a number in storage to a user-specified value.
-    pub fn mul_number(&mut self, new_number: U256) {
-        self.number.set(new_number * self.number.get());
+    const SLOT_BYTES: usize = 32;
+
+    const REQUIRED_SLOTS: usize = 0;
+}
+
+
+sol_storage! {
+    #[entrypoint]
+    pub struct CoffeeShop {
+        address owner;
+        bool active;
+        Coffee[] coffees;
+    }
+}
+
+#[external]
+impl CoffeeShop {
+    pub fn owner(&self) -> Address {
+        self.owner.get()
     }
 
-    /// Sets a number in storage to a user-specified value.
-    pub fn add_number(&mut self, new_number: U256) {
-        self.number.set(new_number + self.number.get());
+    pub fn is_active(&self) -> bool {
+        self.active.get()
     }
 
-    /// Increments `number` and updates its value in storage.
-    pub fn increment(&mut self) {
-        let number = self.number.get();
-        self.set_number(number + U256::from(1));
+    pub fn constructor(&mut self) {
+        self.owner.set(msg::sender());
+        self.active.set(true);
+    }
+
+    pub fn add_coffee(&mut self, cof_id: u64, name: String, price: U256) {
+        if msg::sender() != self.owner() {
+            panic!("Only the owner can add a coffee");
+        }
+
+        let mut new_coffee = Coffee {
+            id: cof_id,
+            name: name.clone(),
+            price: price,
+        };
+        let mut pinned_name = Pin::new(&mut new_coffee.name);
+        let mut pinned_price = Pin::new(&mut new_coffee.price);
+
+        pinned_name.as_mut().push_str(name.as_str());
+        *pinned_price.as_mut() = price;
+
+        evm::log(CoffeeAdded {
+            id: U256::from(cof_id),
+            name,
+            price,
+        });
+    }
+
+    pub fn get_coffee(&self, id: U256) -> (String, U256) {
+        let coffee = self.coffees.get(id).unwrap();
+        (coffee.name.clone(), coffee.price)
+    }
+
+    #[payable]
+    pub fn buy_coffee(&mut self, id: u64) {
+        let coffee = self.coffees.get(*&id).expect("Coffee not found");
+        let price = coffee.price;
+
+        if msg::value() < price {
+            panic!("Insufficient payment");
+        }
+
+        let buyer = msg::sender();
+        let paid = msg::value();
+
+        evm::log(CoffeePurchased {
+            id: U256::from(id),
+            buyer,
+            paid,
+        });
     }
 }
