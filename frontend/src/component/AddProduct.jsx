@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import web3 from "../web3";
 import contract from "../Contract";
+import { useLocation } from "react-router-dom";
 
 const AddProduct = () => {
+  const location = useLocation();
+  const account = location.state?.account;
+  console.log(account);
+
   const [product, setProduct] = useState({
     name: "",
-    productId: "",
+    id: "",
     price: "",
-    
   });
-console.log(product)
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct({
@@ -18,13 +22,18 @@ console.log(product)
     });
   };
 
+  console.log(product);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const accounts = await web3.eth.getAccounts();
-    const account = accounts[0];
-
     try {
-      await contract.methods.addProduct(product.name, product.productId, product.price, product.description).send({ from: account });
+      await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          from: account,
+          to: contract.options.address,
+          data: contract.methods.addCoffee(product.id, product.name, web3.utils.toWei(product.price, "ether")).encodeABI(),
+        }],
+      });
       alert('Product added successfully!');
     } catch (error) {
       console.error(error);
@@ -33,11 +42,11 @@ console.log(product)
   };
 
   return (
-    <div className="grid gap-7  grid-cols-2">
+    <div className="grid gap-7 grid-cols-2">
       <div className="">
         <img src="https://coffee-workdo.myshopify.com/cdn/shop/files/abt-2.jpg?v=1672736581" alt="" />
       </div>
-      <div className=" bg-white w-[80%]  px-6 rounded-sm py-9 mx-auto mt-10">
+      <div className="bg-white w-[80%] px-6 rounded-sm py-9 mx-auto mt-10">
         <h2 className="text-2xl font-bold mb-4">Add Product</h2>
         <form onSubmit={handleSubmit} className="space-y-4 w-full">
           <div>
@@ -60,8 +69,8 @@ console.log(product)
             </label>
             <input
               type="text"
-              name="productId"
-              value={product.productId}
+              name="id"
+              value={product.id}
               onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
@@ -69,7 +78,7 @@ console.log(product)
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Price
+              Price (in Ether)
             </label>
             <input
               type="number"

@@ -17,7 +17,7 @@ if (window.ethereum) {
 }
 
 // Connect to Arbitrum node
-const arbitrumNodeUrl = 'https://arb1.arbitrum.io/rpc'; // Replace with your Arbitrum node URL
+const arbitrumNodeUrl = 'https://arb-mainnet.g.alchemy.com/v2/QADjd7Me9ppeOUK7L_cWJsn7ncztjMQq'; // Replace with your Arbitrum node URL
 web3.setProvider(new Web3.providers.HttpProvider(arbitrumNodeUrl));
 
 export default web3;
