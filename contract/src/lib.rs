@@ -78,6 +78,8 @@ impl StorageType for Coffee {
     const REQUIRED_SLOTS: usize = 0;
 }
 
+const OWNER: &str = "0x49A070FF5a7A33a990A9C799A76Dc03cAF526376";
+
 
 sol_storage! {
     #[entrypoint]
@@ -90,17 +92,19 @@ sol_storage! {
 
 #[external]
 impl CoffeeShop {
+    pub fn init(&mut self) {
+        let owner_address = Address::parse_checksummed(OWNER, None).expect("Invalid address");
+
+        self.owner.set(owner_address);
+        self.active.set(true);
+    }
+
     pub fn owner(&self) -> Address {
         self.owner.get()
     }
 
     pub fn is_active(&self) -> bool {
         self.active.get()
-    }
-
-    pub fn constructor(&mut self) {
-        self.owner.set(msg::sender());
-        self.active.set(true);
     }
 
     pub fn add_coffee(&mut self, cof_id: u64, name: String, price: U256) {
