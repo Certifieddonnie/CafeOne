@@ -1,4 +1,4 @@
-// web3.js
+// src/web3.js
 import Web3 from 'web3';
 
 let web3;
@@ -13,7 +13,11 @@ if (window.ethereum) {
 } else if (window.web3) {
   web3 = new Web3(window.web3.currentProvider);
 } else {
-  console.error("Non-Ethereum browser detected. You should consider trying MetaMask!");
+  console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
 }
+
+// Connect to Arbitrum node
+const arbitrumNodeUrl = 'https://arb1.arbitrum.io/rpc'; // Replace with your Arbitrum node URL
+web3.setProvider(new Web3.providers.HttpProvider(arbitrumNodeUrl));
 
 export default web3;
