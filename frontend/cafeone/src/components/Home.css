@@ -1,0 +1,142 @@
+/* src/components/Home.css */
+
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  text-align: center;
+  background-image: url("../images/caf1.jpg"); /* Replace with an actual image URL */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: 1;
+}
+
+.home-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)); /* Stronger gradient for readability */
+  z-index: -1;
+}
+
+.home-header {
+  width: 100%;
+  height: 100vh;
+  max-width: 900px; /* Increase max-width to better fit content */
+  background: rgba(255, 255, 255, 0.15); /* Light frosted glass effect */
+  padding: 40px 30px;
+  border-radius: 10px;
+  backdrop-filter: blur(15px); /* Enhanced glass effect */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  color: white;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-top: 20px;
+  color: #ffdd57;
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #e0e0e0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+li {
+  font-size: 1.1rem;
+  margin: 10px 0;
+  color: #ff8c00; /* Coffee-theme golden yellow */
+}
+
+.wallet-button {
+  background-color: #ff8c00;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1.3rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.wallet-button:hover {
+  background-color: #ff7000;
+  transform: scale(1.05);
+}
+
+.home-header:hover {
+  transform: translateY(-10px);
+  opacity: 0.95;
+}
+
+/* Responsive Styles */
+
+@media (max-width: 768px) {
+  .home-header {
+    width: 90%; /* Ensure header fills more of the screen on smaller devices */
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .wallet-button {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+
+  .wallet-button {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+
+  ul li {
+    list-style-type: circle;
+    font-size: 0.9rem;
+    padding: 0 0px;
+  }
+}

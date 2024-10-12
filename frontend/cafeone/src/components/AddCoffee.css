@@ -1,0 +1,45 @@
+.cofad {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cofad h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cofad form {
+  display: flex;
+  flex-direction: column;
+}
+
+.cofad label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.cofad input, .cofad textarea {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.cofad button {
+  padding: 10px;
+  background-color: #ff5722; /* Coffee color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cofad button:hover {
+  background-color: #e64a19; /* Darker coffee color */
+}
