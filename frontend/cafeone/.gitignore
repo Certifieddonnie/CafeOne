@@ -15,6 +15,9 @@ src/components/example.js
 /build
 
 # misc
+.jenv
+.env
+src/.env
 .DS_Store
 .env.local
 .env.development.local
