@@ -3,9 +3,13 @@
   margin: auto;
   padding: 20px;
   border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.15); /* Light frosted glass effect */
+  padding: 40px 30px;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(15px); /* Enhanced glass effect */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  color: white;
 }
 
 .cofad h2 {

@@ -7,9 +7,9 @@
   height: 100vh;
   padding: 20px;
   text-align: center;
-  background-image: url("../images/caf1.jpg"); /* Replace with an actual image URL */
-  background-size: cover;
-  background-position: center;
+  /* background-image: url("../images/caf1.jpg"); /* Replace with an actual image URL */
+  /* background-size: cover;
+  background-position: center; */
   position: relative;
   z-index: 1;
 }

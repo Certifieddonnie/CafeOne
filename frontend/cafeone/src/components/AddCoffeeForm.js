@@ -1,51 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import CoffeeContract from './ContractABI.json'; // Contract ABI
 import { useWallet } from './WalletContext'; // Import the wallet context
 import './AddCoffee.css'; // Import the CSS
 
 const AddCoffee = () => {
-  // eslint-disable-next-line
     const { userAddress } = useWallet();
-    const [coffeeId, setCoffeeId] = useState('');
     const [coffeeName, setCoffeeName] = useState('');
     const [coffeePrice, setCoffeePrice] = useState('');
     const [loading, setLoading] = useState(false);
+    const [ownerAddress, setOwnerAddress] = useState('');
+
+    useEffect(() => {
+        const fetchOwnerAddress = async () => {
+            try {
+              // const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+              const owner = process.env.REACT_APP_OWNER_ADDRESS;
+        
+              console.log("Owner: ", process.env.REACT_APP_OWNER_ADDRESS)
+              setOwnerAddress(owner);
+            } catch (error) {
+              console.error("Error fetching owner address:", error);
+            }
+        };
+          fetchOwnerAddress();
+    }, []);
 
     const handleAddCoffee = async (e) => {
         e.preventDefault();
+        if (userAddress !== ownerAddress) {
+            alert("You do not have permission to add coffee.");
+            return;
+        }
+        
         setLoading(true);
         try {
-          const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-          // console.log("Process Env:", process.env.REACT_APP_CONTRACT_ADDRESS);
-          console.log("Contract Address:", process.env.REACT_APP_CONTRACT_ADDRESS);
-          console.log("Contract ABI:", CoffeeContract);
-          
-          if (window.ethereum) {
-              const provider = new ethers.providers.Web3Provider(window.ethereum);
-              const signer = provider.getSigner();
-              console.log("User Address:", await signer.getAddress());
-              const contract = new ethers.Contract(contractAddress, CoffeeContract, signer);
-              
-              const priceInWei = ethers.utils.parseEther(coffeePrice);
-              
-              // Assuming the smart contract function is `addCoffee(id, name, price)`
-              const tx = await contract.addCoffee(
-                parseInt(coffeeId), 
-                coffeeName, 
-                priceInWei,
-                {
-                    gasLimit: ethers.utils.hexlify(1000000) // Set a high gas limit (1 million units)
-                }
-            );
-              await tx.wait();
-              
-              console.log('Coffee added successfully:', tx);
-              alert('Coffee added successfully!');
-              // Reset the form
-              setCoffeeId('');
-              setCoffeeName('');
-              setCoffeePrice('');
+            const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+            if (window.ethereum) {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+                const contract = new ethers.Contract(contractAddress, CoffeeContract, signer);
+                
+                const priceInWei = ethers.utils.parseEther(coffeePrice);
+
+                console.log("Coffee name being sent:", coffeeName);
+                console.log("Coffee name in UTF-8:", unescape(encodeURIComponent(coffeeName)));
+                
+                const tx = await contract.addCoffee( 
+                    coffeeName, 
+                    priceInWei,
+                    {
+                        gasLimit: ethers.utils.hexlify(1000000)
+                    }
+                );
+                await tx.wait();
+                alert('Coffee added successfully!');
+                setCoffeeName('');
+                setCoffeePrice('');
             } else {
                 alert('Please install MetaMask to use this DApp!');
             }
@@ -61,15 +72,6 @@ const AddCoffee = () => {
         <div className="cofad">
             <h2>Add New Coffee</h2>
             <form onSubmit={handleAddCoffee}>
-                <div>
-                    <label>Coffee ID:</label>
-                    <input 
-                        type="text" 
-                        value={coffeeId} 
-                        onChange={(e) => setCoffeeId(e.target.value)} 
-                        required 
-                    />
-                </div>
                 <div>
                     <label>Coffee Name:</label>
                     <input 

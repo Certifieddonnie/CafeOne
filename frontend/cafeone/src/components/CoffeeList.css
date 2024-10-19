@@ -2,12 +2,16 @@
   padding: 20px;
   max-width: 1200px;
   margin: auto;
-  background: rgba(255, 255, 255, 0.8); /* Opaque background */
+  background: rgba(255, 255, 255, 0.15); /* Light frosted glass effect */
+  padding: 40px 30px;
   border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(15px); /* Enhanced glass effect */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  color: white;
   text-align: center;
-  position: relative; /* For absolute positioning of the background image */
-  overflow: hidden; /* Ensures background image doesn't overflow */
+  position: relative;
+  overflow: hidden;
 }
 
 .coffee-list::before {
@@ -17,19 +21,41 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('../images/caf1.jpg'); /* Update with your image path */
-  background-size: cover; /* Ensures the image covers the entire area */
-  background-position: center;
-  opacity: 0.2; /* Makes the background image slightly transparent */
-  z-index: 1; /* Positions it behind the text */
+  background: linear-gradient(rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.5)); /* Stronger gradient for readability */
+  z-index: 1;
+}
+
+/* Token Balance Styling */
+.token-balance {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.05); /* Light background for balance section */
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  color: #333; /* Darker color for readability */
+  font-size: 1.2rem;
+  z-index: 2;
+}
+
+.token-balance h3 {
+  font-size: 1.5rem;
+  font-family: 'Helvetica', sans-serif;
+  color: #ff5722; /* Coffee color */
+  margin-bottom: 10px;
+}
+
+.token-balance p {
+  font-size: 1.2rem;
+  margin: 5px 0;
+  color: #555; /* Subtle color */
 }
 
 h2.cofli {
   font-family: 'Helvetica', sans-serif;
   margin-bottom: 20px;
-  color: #333;
-  position: relative; /* To bring the text above the background */
-  z-index: 2; /* Ensures the text is above the background image */
+  color: #ffdd57;
+  position: relative;
+  z-index: 2;
 }
 
 ul.cofli {
@@ -38,14 +64,15 @@ ul.cofli {
 }
 
 li.cofli {
-  background: rgba(255, 255, 255, 0.9); /* Slightly opaque background for coffee items */
-  border-radius: 8px;
-  padding: 15px;
-  margin: 10px 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-  position: relative; /* To position the text above the background */
-  z-index: 2; /* Ensure items are above the background */
+  background: rgba(255, 255, 255, 0.15); /* Light frosted glass effect */
+  padding: 40px 30px;
+  border-radius: 10px;
+  backdrop-filter: blur(15px); /* Enhanced glass effect */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  color: white;
+  position: relative;
+  z-index: 2;
 }
 
 li.cofli:hover {
@@ -56,30 +83,32 @@ li.cofli:hover {
 h3.cofli {
   font-size: 1.5rem;
   margin: 0;
-  color: #ff5722; /* Coffee color */
-  font-weight: 700; /* Bold for emphasis */
+  color: #ffdd57;
+  font-weight: 700;
 }
 
 p.cofli {
   font-size: 1.2rem;
   margin: 10px 0;
-  color: #555; /* Darker color for better readability */
-  line-height: 1.5; /* Improved line spacing for better readability */
+  color: #ffdd57;
+  line-height: 1.5;
 }
+
+
 
 button.cofli {
   padding: 10px 15px;
   border: none;
-  background-color: #ff5722; /* Coffee color */
+  background-color: #ff5722;
   color: white;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
-  font-size: 1rem; /* Consistent button font size */
+  font-size: 1rem;
 }
 
 button.cofli:hover {
-  background-color: #e64a19; /* Darker coffee color */
+  background-color: #e64a19;
   transform: translateY(-2px);
 }
 
@@ -88,3 +117,36 @@ button.cofli:disabled {
   cursor: not-allowed;
 }
 
+button.cofli:focus {
+  outline: 2px solid #ff5722;
+  outline-offset: 3px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .coffee-list {
+    padding: 15px;
+    margin: 0;
+  }
+
+  li.cofli {
+    padding: 10px;
+    margin: 5px 0;
+  }
+
+  h3.cofli {
+    font-size: 1.2rem;
+  }
+
+  p.cofli {
+    font-size: 1rem;
+  }
+
+  button.cofli {
+    font-size: 0.9rem;
+  }
+
+  .token-balance {
+    font-size: 1rem;
+  }
+}

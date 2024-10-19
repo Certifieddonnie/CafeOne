@@ -1,0 +1,26 @@
+.profile {
+  width: 70%;
+  height: 50vh;
+  /* max-width: 900px; Increase max-width to better fit content */
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.15); /* Light frosted glass effect */
+  padding: 40px 30px;
+  border-radius: 10px;
+  backdrop-filter: blur(15px); /* Enhanced glass effect */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  color: white;
+}
+
+.profile-info {
+  margin-top: 10px;
+}
+
+.profile-info p {
+  margin: 5px 0;
+}
+
+h2 {
+  margin-bottom: 15px;
+  color: #333;
+}

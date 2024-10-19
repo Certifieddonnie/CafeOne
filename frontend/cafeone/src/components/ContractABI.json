@@ -2,11 +2,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint64",
-        "name": "cof_id",
-        "type": "uint64"
-      },
-      {
         "internalType": "string",
         "name": "name",
         "type": "string"
@@ -25,14 +20,20 @@
   {
     "inputs": [
       {
-        "internalType": "uint64",
-        "name": "id",
-        "type": "uint64"
+        "internalType": "uint256",
+        "name": "coffee_id",
+        "type": "uint256"
       }
     ],
     "name": "buyCoffee",
-    "outputs": [],
-    "stateMutability": "payable",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -50,6 +51,76 @@
         "name": "",
         "type": "string"
       },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCoffeeCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "coffee_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "getCoffeeSales",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user_address",
+        "type": "address"
+      }
+    ],
+    "name": "getPurchaseCountFor",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user_address",
+        "type": "address"
+      }
+    ],
+    "name": "getTokenBalanceFor",
+    "outputs": [
       {
         "internalType": "uint256",
         "name": "",
@@ -90,6 +161,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "purchaseTokens",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

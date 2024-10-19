@@ -1,29 +1,45 @@
 body {
-  background-color: #d81d2d;
+  background-image: url('./images/caf2.jpg'); /* Replace with your actual image URL */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Makes the background stay fixed while scrolling */
   color: #f3f0f0;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  height: 100%; /* Ensure it covers the entire height of the page */
+}
+
+html, body, #root {
+  height: 100%; /* Ensures the background covers the whole viewport */
 }
 
 .App {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Adds a semi-transparent overlay to the content */
+  backdrop-filter: blur(10px); /* Blurs the background image behind the content */
 }
 
 .navbar {
   margin-bottom: 30px;
+  background-color: rgba(0, 0, 0, 0.7); /* Navbar background with transparency */
+  padding: 15px;
 }
 
 .section-title {
   font-weight: bold;
   font-size: 36px;
   margin-bottom: 20px;
-  color: #343a40;
+  color: #f3f0f0;
 }
 
 .section-description {
   font-size: 18px;
   margin-bottom: 30px;
-  color: #6c757d;
+  color: #f3f0f0;
 }
 
 .coffee-image {
